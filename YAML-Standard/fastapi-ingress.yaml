@@ -1,0 +1,24 @@
+# yaml-standard/fastapi-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastapi-ingress
+  namespace: standard
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  rules:
+    - host: yamlkubectl.course-datascientest.cloudns.ch
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fastapi
+                port:
+                  number: 5000
+  tls:
+    - hosts:
+        - yamlkubectl.course-datascientest.cloudns.ch
+      secretName: fastapi-tls
